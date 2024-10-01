@@ -1,0 +1,23 @@
+{
+  "name": "akamai-worker",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Akamai EdgeWorker modules",
+  "license": "MIT",
+  "scripts": {
+    "format": "prettier --write \"src/**/*.{js,ts,tsx}\"",
+    "upload:bundle": "node ./scripts/upload-bundle.js",
+    "increment:version": "node ./scripts/increment-version.js",
+    "activate:version": "node ./scripts/activate-version.js",
+    "worker:version:prepare": "npm run download:manifest && npm run increment:version && npm run experiment:build",
+    "worker:version:deploy": "npm run upload:bundle && npm run activate:version",
+    "worker:status": "node ./scripts/check-status.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/akamai-edgeworkers": "1.0.10",
+    "@types/node": "^17.0.44",
+    "dotenv": "^16.0.1",
+    "semver": "7.5.2"
+  }
+}
