@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "outDir": "./dist",
     "noUnusedLocals": true,
     "noUnusedParameters": true,

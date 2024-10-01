@@ -4,7 +4,6 @@
   "private": false,
   "description": "Akamai EdgeWorker modules",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "start": "rollup -c -w",
     "experiment:build": "rimraf dist & rollup -c",

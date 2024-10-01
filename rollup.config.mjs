@@ -17,7 +17,7 @@ export default {
         typescript({
             tsconfig: './tsconfig.json',
             declaration: false,
-            sourceMap: false,
+            sourceMap: true,
         }),
         json(),
         resolve(),

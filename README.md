@@ -20,4 +20,6 @@ use `yarn worker:version:prepare` command to increment version and prepare dist
 
 use `yarn worker:version:deploy` command to upload and activate bundle
 
-Akamai EdgeWorkers [documentation](https://techdocs.akamai.com/edgeworkers/docs/welcome-to-edgeworkers) 
+Akamai EdgeWorkers [documentation](https://techdocs.akamai.com/edgeworkers/docs/welcome-to-edgeworkers)
+
+Akamai EdgeWorkers CLI [documentation](https://github.com/akamai/cli-edgeworkers)
