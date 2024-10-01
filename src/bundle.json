@@ -1,12 +1,9 @@
 {
-  "edgeworker-version": "1.29",
-  "description": "Levo Edge Worker 1.29",
+  "edgeworker-version": "0.1",
+  "description": "Levo Edge Worker 0.1",
   "config": {
     "logging": {
       "level": "debug"
-    },
-    "subrequest": {
-      "invoke-for-edgeworker-clients": true
     }
   }
 }

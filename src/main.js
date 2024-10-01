@@ -63,14 +63,12 @@ export async function onClientResponse(request, response) {
         body: JSON.stringify(logData)
       });
 
-      logger.info('Log data sent. Status: ' + logResponse.status);
+      logger.debug('Log data sent. Status: ' + logResponse.status);
     } catch (error) {
       logger.error('Error sending log data: ' + error.toString());
     }
-
-    return response;
   } catch (error) {
     logger.error('Error in onClientResponse: ' + error.toString());
-    return createResponse(500, {}, 'Internal Server Error');
   }
+  return response;
 }
