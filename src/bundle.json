@@ -1,6 +1,6 @@
 {
-  "edgeworker-version": "0.1",
-  "description": "Levo Edge Worker 0.1",
+  "edgeworker-version": "0.1.0",
+  "description": "Levo Edge Worker 0.1.0",
   "config": {
     "logging": {
       "level": "debug"
