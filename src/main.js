@@ -1,12 +1,28 @@
 import { logger } from 'log';
 import { httpRequest } from 'http-request';
-import { createResponse } from 'create-response';
 
 function generateUUID() {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
+}
+
+let errorLogCount = 0;
+let lastResetTime = Date.now();
+
+// Helper function for rate limiting (e.g., 5 logs per minute)
+function canLogError(maxLogsPerMinute = 5) {
+  const now = Date.now();
+  if (now - lastResetTime > 60000) { // Reset counter every 60 seconds
+    errorLogCount = 0;
+    lastResetTime = now;
+  }
+  if (errorLogCount < maxLogsPerMinute) {
+    errorLogCount++;
+    return true;
+  }
+  return false;
 }
 
 export async function onClientResponse(request, response) {
@@ -49,7 +65,9 @@ export async function onClientResponse(request, response) {
       request: requestDetails,
       response: responseDetails,
       timestamp: new Date().toISOString(),
-      requestId: generateUUID()
+      requestId: generateUUID(),
+      serviceName: request.getVariable('PMUSER_SERVICE_NAME'),
+      env: request.getVariable('PMUSER_ENVIRONMENT')
     };
 
     const logEndpoint = 'http://echo.getlevoai.com/traces';
@@ -65,10 +83,17 @@ export async function onClientResponse(request, response) {
 
       logger.debug('Log data sent. Status: ' + logResponse.status);
     } catch (error) {
-      logger.error('Error sending log data: ' + error.toString());
+      // Rate-limit error logging to avoid flooding (5 errors per minute)
+      if (canLogError(5)) {
+        logger.error('Error sending log data: ' + error.toString());
+      }
     }
+
   } catch (error) {
-    logger.error('Error in onClientResponse: ' + error.toString());
+    // Rate-limit error logging to avoid flooding (5 errors per minute)
+    if (canLogError(5)) {
+      logger.error('Error in onClientResponse: ' + error.toString());
+    }
   }
   return response;
 }
