@@ -52,7 +52,6 @@ export async function onClientResponse(request, response) {
       requestId: generateUUID()
     };
 
-    logger.info('log data: ', JSON.stringify(logData));
     const logEndpoint = 'http://echo.getlevoai.com/traces';
 
     try {
@@ -68,9 +67,6 @@ export async function onClientResponse(request, response) {
     } catch (error) {
       logger.error('Error sending log data: ' + error.toString());
     }
-
-    // Modify the response
-    response.setHeader('x-akamai-worker', '1.29, ' + JSON.stringify(logData));
 
     return response;
   } catch (error) {
