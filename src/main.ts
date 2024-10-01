@@ -85,14 +85,14 @@ export async function onClientResponse(request, response) {
     } catch (error) {
       // Rate-limit error logging to avoid flooding (5 errors per minute)
       if (canLogError(5)) {
-        logger.error('Error sending log data: ' + error.toString());
+        logger.error('Error sending log data: ' + (error as Error).toString());
       }
     }
 
   } catch (error) {
     // Rate-limit error logging to avoid flooding (5 errors per minute)
     if (canLogError(5)) {
-      logger.error('Error in onClientResponse: ' + error.toString());
+      logger.error('Error in onClientResponse: ' + (error as Error).toString());
     }
   }
   return response;
