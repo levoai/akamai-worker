@@ -4,6 +4,9 @@
   "config": {
     "logging": {
       "level": "debug"
+    },
+    "subrequest": {
+      "invoke-for-edgeworker-clients": true
     }
   }
 }

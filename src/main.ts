@@ -1,18 +1,6 @@
 import { logger } from 'log';
 import { httpRequest } from 'http-request';
 
-const generateUUID = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
-// Helper function for log sampling
-const shouldLogError = (sampleRate = 0.1) => {
-  return Math.random() < sampleRate; // 10% chance to log by default
-}
-
 const supportedMimeTypes = [
   "application/json",
   "application/ld+json",
@@ -25,9 +13,37 @@ const supportedMimeTypes = [
   "text/plain",
 ];
 
+const responseHeaderNames = [
+  'Content-Type',
+  'Content-Length',
+  'Cache-Control',
+  'Expires',
+  'Last-Modified',
+  'ETag',
+  'Location',
+  'Server',
+  'Set-Cookie',
+  'X-Frame-Options',
+  'Strict-Transport-Security',
+  'X-Content-Type-Options',
+  'X-XSS-Protection'
+];
+
+const generateUUID = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+};
+
+// Helper function for log sampling
+const shouldLogError = (sampleRate = 0.1) => {
+  return Math.random() < sampleRate; // 10% chance to log by default
+};
+
 // Only report request/response pairs for supported response MIME types
 const shouldSendToLevo = (request, response) => {
-  const contentType = response.getHeader('Content-Type')?.toLowerCase();
+  const contentType = response.getHeader('Content-Type')?.[0]?.toLowerCase();
   if (!contentType) {
     logger.debug(
         `The response from the server for the URL "${request.url}" ` +
@@ -75,22 +91,13 @@ export async function onClientResponse(request, response) {
     // Capture response details
     const responseDetails = {
       status: response.status,
-      headers: {
-        'Content-Type': response.getHeader('Content-Type') || '',
-        'Content-Length': response.getHeader('Content-Length') || '',
-        'Cache-Control': response.getHeader('Cache-Control') || '',
-        'Expires': response.getHeader('Expires') || '',
-        'Last-Modified': response.getHeader('Last-Modified') || '',
-        'ETag': response.getHeader('ETag') || '',
-        'Location': response.getHeader('Location') || '',
-        'Server': response.getHeader('Server') || '',
-        'Set-Cookie': response.getHeader('Set-Cookie') || '',
-        'X-Frame-Options': response.getHeader('X-Frame-Options') || '',
-        'Strict-Transport-Security': response.getHeader('Strict-Transport-Security') || '',
-        'X-Content-Type-Options': response.getHeader('X-Content-Type-Options') || '',
-        'X-XSS-Protection': response.getHeader('X-XSS-Protection') || ''
-      }
+      headers: {}
     };
+
+    responseHeaderNames.forEach((responseHeaderName) => {
+      const headerValues = response.getHeader(responseHeaderName);
+      if (headerValues) responseDetails.headers[responseHeaderName] = headerValues;
+    });
 
     // Combine request and response details
     const logData = {
