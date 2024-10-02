@@ -10,14 +10,14 @@ export default {
     output: {
         dir: 'dist',
         format: 'es',
-        sourcemap: true,
+        sourcemap: false,
     },
     plugins: [
         commonjs(),
         typescript({
             tsconfig: './tsconfig.json',
             declaration: false,
-            sourceMap: true,
+            sourceMap: false,
         }),
         json(),
         resolve(),
