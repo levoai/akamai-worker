@@ -1,8 +1,8 @@
-# Uniform Akamai EdgeWorker
+# Levo Akamai EdgeWorker
 
 See docs [here](https://docs.levo.ai/).
 
-## Getting Started
+## Getting Started with Development of Edge Worker
 1. Ensure you have [Akamai CLI installed](https://techdocs.akamai.com/edgeworkers/docs/akamai-cli)
     - On Windows you may need to add `akamai.exe` location to `Path` environment variable
 2. Ensure you have [Akamai API credentials](https://techdocs.akamai.com/developer/docs/set-up-authentication-credentials) file
