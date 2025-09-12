@@ -45,7 +45,7 @@ const shouldLogError = (sampleRate = 0.1) => {
 const shouldSampleData = (request, sampleRate?) => {
   // Get sample rate from environment variable if not provided
   if (sampleRate === undefined) {
-    const envSampleRate = request.getVariable('PMUSER_LEVO_SAMPLE_RATE');
+    const envSampleRate = request.getVariable('PMUSER_LEVOAI_SAMPLE_RATE');
     sampleRate = envSampleRate ? parseFloat(envSampleRate) : 1.0; // Default to 100% if not set
   }
   
@@ -84,15 +84,15 @@ export async function onClientResponse(request, response) {
     }
 
     // TODO: Check if we need the following checks
-    const levoOrgId = request.getVariable('PMUSER_LEVO_ORG_ID');
+    const levoOrgId = request.getVariable('PMUSER_LEVOAI_ORG_ID');
     if (!levoOrgId) {
-      logger.warn("PMUSER_LEVO_ORG_ID not set, skipping");
+      logger.warn("PMUSER_LEVOAI_ORG_ID not set, skipping");
       return response;
     }
 
-    const levoSatelliteUrl = request.getVariable('PMUSER_LEVO_SATELLITE_URL');
+    const levoSatelliteUrl = request.getVariable('PMUSER_LEVOAI_SATELLITE_URL');
     if (!levoSatelliteUrl) {
-      logger.warn("PMUSER_LEVO_SATELLITE_URL not set, skipping");
+      logger.warn("PMUSER_LEVOAI_SATELLITE_URL not set, skipping");
       return response;
     }
 
@@ -125,8 +125,8 @@ export async function onClientResponse(request, response) {
       response: responseDetails,
       timestamp: new Date().toISOString(),
       requestId: generateUUID(),
-      serviceName: request.getVariable('PMUSER_LEVO_SERVICE_NAME') || '',
-      env: request.getVariable('PMUSER_LEVO_ENV') || 'staging'
+      serviceName: request.getVariable('PMUSER_LEVOAI_SERVICE_NAME') || '',
+      env: request.getVariable('PMUSER_LEVOAI_ENV') || 'staging'
     };
 
     try {
