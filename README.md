@@ -61,11 +61,11 @@ Follow the steps below to deploy the EdgeWorker using the CLI.
 - Navigate to **CDN** > **Properties** from left-hand menu.
 - Select the property you want to configure and click **Edit New Version**.
 - Under **Property Variables**, add following variables.
-  - `LEVO_SATELLITE_URL` - The URL of the Satellite where the traffic will be sent.
-  - `LEVO_ORG_ID` - Your organization ID.
-  - `LEVO_ENV` - The desired environment name. Optional, default is `staging`.
-  - `LEVO_SERVICE_NAME` - The name of the service you are monitoring. Optional.
-  - `LEVO_SAMPLE_RATE` - The sample rate for capturing traffic. Optional, default is `1` (100%).
+  - `LEVOAI_SATELLITE_URL` - The URL of the Satellite where the traffic will be sent.
+  - `LEVOAI_ORG_ID` - Your organization ID.
+  - `LEVOAI_ENV` - The desired environment name. Optional, default is `staging`.
+  - `LEVOAI_SERVICE_NAME` - The name of the service you are monitoring. Optional.
+  - `LEVOAI_SAMPLE_RATE` - The sample rate for capturing traffic. Optional, default is `1` (100%).
   >   **Note:** These variables are prefixed with **PMUSER_** in this section.
 - Under **Property Configuration Settings**, go to > **Rules** > **Behaviors**, and:
   - Enable **EdgeWorkers** behavior.
