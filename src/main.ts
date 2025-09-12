@@ -41,6 +41,20 @@ const shouldLogError = (sampleRate = 0.1) => {
   return Math.random() < sampleRate; // 10% chance to log by default
 };
 
+// Helper function for data sampling - controls how much data gets sent to Levo
+const shouldSampleData = (request, sampleRate?) => {
+  // Get sample rate from environment variable if not provided
+  if (sampleRate === undefined) {
+    const envSampleRate = request.getVariable('PMUSER_LEVO_SAMPLE_RATE');
+    sampleRate = envSampleRate ? parseFloat(envSampleRate) : 1.0; // Default to 100% if not set
+  }
+  
+  // Ensure sample rate is between 0 and 1
+  sampleRate = Math.max(0, Math.min(1, sampleRate));
+  
+  return Math.random() < sampleRate;
+};
+
 // Only report request/response pairs for supported response MIME types
 const shouldSendToLevo = (request, response) => {
   const contentType = response.getHeader('Content-Type')?.[0]?.toLowerCase();
@@ -60,6 +74,12 @@ export async function onClientResponse(request, response) {
   try {
     if (!shouldSendToLevo(request, response)) {
       logger.debug(`Skipping sending traces for URL ${request.url} to Levo.`);
+      return response;
+    }
+
+    // Check if we should sample this request
+    if (!shouldSampleData(request)) {
+      logger.debug(`Request for URL ${request.url} not selected for sampling.`);
       return response;
     }
 
